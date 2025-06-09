@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  kundenservice:
+    build:
+      context: ./node-web
+    ports:
+      - "8083:8083"

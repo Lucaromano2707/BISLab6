@@ -1,0 +1,21 @@
+{
+  "name": "customer-express-file",
+  "version": "1.0.0",
+  "description": "customer service on express framework with file persistence",
+  "main": "customer-service.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rest",
+    "express",
+    "openAPI"
+  ],
+  "author": "Luca",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

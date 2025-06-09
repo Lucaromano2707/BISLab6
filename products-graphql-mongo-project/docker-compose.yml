@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+ database:
+  container_name: productsdb
+  image: mongo:6.0
+  restart: always
+  volumes:
+   - ./mongodata:/data/db
+ graphql:
+  build:
+   context: ./graphql-server
+   dockerfile: Dockerfile
+  depends_on:
+   - database
+  ports:
+   - "8081:8081"

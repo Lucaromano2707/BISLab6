@@ -1,0 +1,258 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API for Kunden-Service",
+        "description": "openAPI-representation InetProg",
+        "version": "0.1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8083",
+            "description": "node.js server on InternetProg"
+        }
+    ],
+    "paths": {
+        "/customers": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "required": false,
+                        "description": "customer names",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Customer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                }
+            },
+            "post": {
+                "requestBody": {
+                    "description": "Customer to be added to list",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Customer"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                }
+            }
+        },
+        "/customers/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "path parameter",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            },
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "path parameter",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Customer to be added or to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Customer"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "path parameter",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Customer": {
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Rad und Tat"
+                    },
+                    "contactLastName": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "contactFirstName": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+49 781 2051"
+                    },
+                    "creditLimit": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
+                    }
+                }
+            },
+            "Address": {
+                "type": "object",
+                "required": [
+                    "zip",
+                    "city"
+                ],
+                "properties": {
+                    "street": {
+                        "type": "string",
+                        "example": "Goethestrasse"
+                    },
+                    "zip": {
+                        "type": "string",
+                        "example": 77652
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Offenburg"
+                    },
+                    "State": {
+                        "type": "string",
+                        "example": "CA"
+                    },
+                    "Country": {
+                        "type": "string",
+                        "example": "USA"
+                    }
+                }
+            }
+        }
+    }
+}
