@@ -1,0 +1,31 @@
+# Node & Java-typisches Zeug
+node_modules/
+target/
+
+# Docker-Datenordner
+**/data/
+**/mongodata/
+**/journal/
+**/tmp/
+**/logs/
+
+# MongoDB-Spezifisch
+**/WiredTiger*
+**/storage.bson
+**/diagnostic.data/
+
+# Systemdateien
+.DS_Store
+.env
+*.log
+
+# Große Bilder (Beispiel)
+*.jpg
+*.jpeg
+*.png
+
+# MongoDB-Daten
+products-graphql-mongo-project/mongodata/
+
+# Node-Module
+**/node_modules/
