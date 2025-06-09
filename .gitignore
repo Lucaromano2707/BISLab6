@@ -1,31 +1,26 @@
-# Node & Java-typisches Zeug
+# ⚙️ Node.js & Java Build-Dateien
 node_modules/
+**/node_modules/
 target/
 
-# Docker-Datenordner
+# 🐳 Docker-Datenordner (nicht versionieren!)
 **/data/
 **/mongodata/
 **/journal/
 **/tmp/
 **/logs/
 
-# MongoDB-Spezifisch
+# 🛠️ MongoDB intern
 **/WiredTiger*
-**/storage.bson
 **/diagnostic.data/
+**/storage.bson
 
-# Systemdateien
+# 💾 System- und Konfigurationsdateien
 .DS_Store
 .env
 *.log
 
-# Große Bilder (Beispiel)
+# 🖼️ Große Bilddateien (optional)
 *.jpg
 *.jpeg
 *.png
-
-# MongoDB-Daten
-products-graphql-mongo-project/mongodata/
-
-# Node-Module
-**/node_modules/
