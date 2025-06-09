@@ -1,0 +1,35 @@
+# Use root/example as user/password credentials
+version: '3.8'
+services: 
+  db-server:
+    container_name: mysqldb
+    image: mysql:8.0
+    # NOTE: use of "mysql_native_password" is not recommended:
+    # (this is just an example, not intended to be a production configuration)
+    # command: --default-authentication-plugin=mysql_native_password
+    restart: always 
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+     - mysqldata:/var/lib/mysql
+     - ./order-service/aufgabe_5/initdb:/docker-entrypoint-initdb.d
+      
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8084:8080
+      #  access with http://localhost:8084
+
+  order-server:
+    build:
+      context: ./order-service/aufgabe_5/tomcat-server
+    depends_on:
+      - db-server
+    ports:
+      - 8082:8080
+
+volumes:
+  mysqldata:
