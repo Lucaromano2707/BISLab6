@@ -121,8 +121,17 @@ http.createServer(function (req, res) {
             // Schema (andere Datei), Query (vom Client) und Root (mit Resolvern) einbinden
             const result = await graphql({schema: productSchema, source: query, rootValue: root});
 
+            // Data entfernen - Start
+            let responseBody;
+            if (result.data && result.data.products) {
+                    responseBody = JSON.stringify({ products: result.data.products });
+            } else {
+                    responseBody = JSON.stringify(result);
+            }
+            // Data entfernen - Ende
+
             // An ausgelagerte Methode weitergeben
-            sendHttpResponse(res, 200, 'application/json', JSON.stringify(result));
+            sendHttpResponse(res, 200, 'application/json', responseBody);
         });
         return;
     }
