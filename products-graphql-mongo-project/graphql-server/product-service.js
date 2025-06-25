@@ -123,10 +123,13 @@ http.createServer(function (req, res) {
 
             // Data entfernen - Start
             let responseBody;
-            if (result.data && result.data.products) {
-                    responseBody = JSON.stringify({ products: result.data.products });
+
+            // Wenn introspection oder kein data → einfach komplett weitergeben
+            if (!result.data || query.includes('__schema') || query.includes('__type')) {
+                responseBody = JSON.stringify(result);
             } else {
-                    responseBody = JSON.stringify(result);
+                const [key, value] = Object.entries(result.data)[0];
+                responseBody = JSON.stringify({ [key]: value ?? {} });
             }
             // Data entfernen - Ende
 

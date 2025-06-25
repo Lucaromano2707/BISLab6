@@ -18,7 +18,7 @@ const productSchema = buildSchema(`
         group: String
         cassette: String
         rim: String
-        tire: String
+        tires: String
         brakes: String
         handlebar: String
     }
@@ -40,7 +40,7 @@ const productSchema = buildSchema(`
         group: String
         cassette: String
         rim: String
-        tire: String
+        tires: String
         brakes: String
         handlebar: String
     }
