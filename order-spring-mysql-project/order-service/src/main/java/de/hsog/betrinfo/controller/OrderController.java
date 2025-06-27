@@ -3,9 +3,7 @@ package de.hsog.betrinfo.controller;
 // import model.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.sql.Date;
 import java.sql.*;
 import de.hsog.betrinfo.model.Order;
 import de.hsog.betrinfo.model.OrderDetail;
@@ -85,7 +83,7 @@ public class OrderController {
         String sql = "INSERT INTO orders (orderNumber, orderDate, requiredDate, shippedDate, status, comments, customerNumber) " +
              "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            PreparedStatement pst = connection.prepareStatement(sql);
+            PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
             pst.setInt(1, order.getOrderNumber());
             pst.setDate(2, new Date(order.getOrderDate().getTime()));
@@ -100,11 +98,33 @@ public class OrderController {
             pst.setInt(7, order.getCustomerNumber());
 
             int i = pst.executeUpdate();
+            ResultSet rs = pst.getGeneratedKeys();
+
+            if (rs.next()) {
+                int newOrderId = rs.getInt(1);
+                for (OrderDetail detail : order.getOrderDetails()) {
+                    String details = "INSERT INTO orderdetails (orderNumber, productCode, quantityOrdered, priceEach, orderLineNumber) " +
+                        "VALUES (?, ?, ?, ?, ?)";
+                    try (PreparedStatement detailsPst = connection.prepareStatement(details)) {
+                        detailsPst.setInt(1, newOrderId);
+                        detailsPst.setString(2, detail.getProductCode());
+                        detailsPst.setInt(3, detail.getQuantityOrdered());
+                        detailsPst.setDouble(4, detail.getPriceEach());
+                        detailsPst.setInt(5, detail.getOrderLineNumber());
+                        detailsPst.executeUpdate();
+                    }
+                }
+                // String newOrderUrl = "http://localhost:8082/order-service/rest/orders/" + newOrderId;
+            }
+            else {
+                connection.rollback();
+                throw new SQLException("Failed to insert orderDetails");
+            }
 
             if (i > 0) {
                 return ResponseEntity.ok("Order inserted");
             } else {
-                return ResponseEntity.internalServerError().body("Insert failed");
+                return ResponseEntity.internalServerError().body("Insert failed in Orders");
             }
         } catch (Exception e) {
             e.printStackTrace();
